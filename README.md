@@ -40,3 +40,31 @@ Refer to here on how to install [Node and npm installation guide](https://docs.n
 - The usage of `Gulp` build tool to automate the process.
 
 #### Task 2
+- Updated `updatePositions` to make use of code reuse, and not
+request layout for every element.
+
+```
+function updatePositions() {
+  frame++;
+  window.performance.mark("mark_start_frame");
+
+  var items = document.querySelectorAll('mover');
+  var const_theta = document.body.scrollTop / 1250;
+  for (var i = 0; i < items.length; i++) {
+    var phase = Math.sin(const_theta + (i % 5));
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  }
+```
+
+- Wrapped `updatePositions` in requestAnimationFrame when appropriate.
+- Replaced all `querySelector, querySelectorAll` calls to either `getElementByID`
+or `getElementsByClassName` when appropriate.
+
+- Refactored `changePizzaSizes` to use relative width using
+`sizeSwitcher`.
+
+- Changed number of pizzas in `DOMContentLoaded` event to be **30**
+instead of 200, which is sufficient to fill the screen.
+
+- Removed width and height changes from `DOMContentLoaded` listener
+and used css to avoid unnecessary paints.
